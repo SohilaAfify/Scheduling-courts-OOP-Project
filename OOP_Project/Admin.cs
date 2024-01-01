@@ -11,7 +11,7 @@ namespace OOP_Project
 
         public List<String> gamesList { get; set; }
 
-        public Admin(int id, string Name, int PhoneNumber, string EmailAddress, string Password, String Role) : base(id, Name, PhoneNumber, EmailAddress, Password, Role)
+        public Admin( string Name, String PhoneNumber, string EmailAddress, string Password, String Role) : base(Name, PhoneNumber, EmailAddress, Password, Role)
         {
         }
     }
