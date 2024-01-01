@@ -11,7 +11,7 @@ namespace OOP_Project
 
         public List<String> gamesList { get; set; }
 
-    public Customer(int id, string Name, int PhoneNumber, string EmailAddress, string Password, String Role) : base(id, Name, PhoneNumber, EmailAddress, Password, Role)
+    public Customer( string Name, string PhoneNumber, string EmailAddress, string Password, String Role) : base( Name, PhoneNumber, EmailAddress, Password, Role)
         {
         }
 
