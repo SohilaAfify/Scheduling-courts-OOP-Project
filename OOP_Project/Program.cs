@@ -6,7 +6,11 @@
         {
 
             Customer cust = new Customer(1, "Sohila", 0123456, "example@gmail.com", "123","Customer");
+
+            Admin admin = new Admin(1, "Admin", 0123, "Admin@gmail.com", "123", "Admin");
             bool isCustomer=true;
+
+            bool isAdmin=true;
             for (int i = 1; i<=3; i++)
             {
 
@@ -19,15 +23,20 @@
                 String userPassword = Console.ReadLine();
                 Console.WriteLine("Enter you role");
                 String Userrole = Console.ReadLine();
+
                 isCustomer = cust.Login(userName, userEmail, userPassword, Userrole);
-                Console.WriteLine(isCustomer);
+                isAdmin = admin.Login(userName, userEmail, userPassword, Userrole);
+                //Console.WriteLine(isCustomer);
                 Console.WriteLine("\n \n");
 
-                if (i == 3 && isCustomer== false) {
+                if (i == 3 && isCustomer== false || i==3 && isAdmin== false) {
                     Console.WriteLine("Try again later");
                         }
-                if (isCustomer == true) { break; }
+                if (isCustomer == true || isAdmin == true) { break;}
             }
+
+
+
              if (isCustomer == true)
             {
 
@@ -59,6 +68,11 @@
 
 
                 cust.choose(option);
+            }
+
+             else if (isAdmin == true)
+            {
+                Console.WriteLine("Welcome admin");
             }
         }
     }
