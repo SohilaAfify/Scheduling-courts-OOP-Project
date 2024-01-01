@@ -1,0 +1,44 @@
+[
+  {
+    "Name": null,
+    "PhoneNumber": null,
+    "EmailAddress": null,
+    "Password": null,
+    "Role": null
+  },
+  {
+    "Name": null,
+    "PhoneNumber": null,
+    "EmailAddress": null,
+    "Password": null,
+    "Role": null
+  },
+  {
+    "Name": null,
+    "PhoneNumber": null,
+    "EmailAddress": null,
+    "Password": null,
+    "Role": null
+  },
+  {
+    "Name": "noha",
+    "PhoneNumber": "12345",
+    "EmailAddress": "noha@gmail",
+    "Password": "123",
+    "Role": "admin"
+  },
+  {
+    "Name": "noha",
+    "PhoneNumber": "123",
+    "EmailAddress": "aa",
+    "Password": "11",
+    "Role": "admin"
+  },
+  {
+    "Name": "Sohila",
+    "PhoneNumber": "123",
+    "EmailAddress": "xample@gmail.com",
+    "Password": "123456",
+    "Role": "admin"
+  }
+]
