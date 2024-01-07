@@ -9,7 +9,8 @@ namespace OOP_Project
     internal class Customer : Users
     {
 
-        public List<String> gamesList { get; set; }
+        //public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+
 
     public Customer( string Name, string PhoneNumber, string EmailAddress, string Password, String Role) : base( Name, PhoneNumber, EmailAddress, Password, Role)
         {
@@ -25,17 +26,10 @@ namespace OOP_Project
             }
         }
 
-        public void choose(int option)
-        {
-            switch (option)
-            {
-                case 0: 
-                break;
-
-               
-
-            }
-
-        }
+        //public void AddReservation(Reservation reservation)
+        //{
+        //    Reservations.Add(reservation);
+        //}
+       
     }
 }
