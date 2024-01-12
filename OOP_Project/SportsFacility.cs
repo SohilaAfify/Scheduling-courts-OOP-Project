@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OOP_Project
 {
+
     internal class SportsFacility
     {
         public List<Sport> Sports { get; set; } = new List<Sport>();
@@ -15,11 +16,6 @@ namespace OOP_Project
         public SportsFacility()
         {
             Sports = new List<Sport>();
-        }
-
-        public void AddSport(Sport sport)
-        {
-            Sports.Add(sport);
         }
 
         public void DisplaySports()
@@ -49,6 +45,43 @@ namespace OOP_Project
             }
         }
 
+        public static SportsFacility LoadData()
+        {
+            try
+            {
+                if (File.Exists(@"C:\json\Court.json"))
+                {
+                    string jsonData = File.ReadAllText(@"C:\json\Court.json");
 
+                    if (!string.IsNullOrWhiteSpace(jsonData))
+                    {
+                        return JsonSerializer.Deserialize<SportsFacility>(jsonData);
+                    }
+                    else
+                    {
+                        Console.WriteLine("JSON file is empty.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("JSON file does not exist.");
+                }
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"Error during deserialization: {ex.Message}");
+            }
+
+            // Handle the case when the file doesn't exist, is empty, or deserialization fails
+            Console.WriteLine("Creating a new instance of SportsFacility.");
+            return new SportsFacility();
+        }
+
+        public static void SaveData(SportsFacility sportsFacility)
+        {
+            string jsonData = JsonSerializer.Serialize(sportsFacility, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(@"C:\json\Court.json", jsonData);
+            Console.WriteLine("Data saved successfully.");
+        }
     }
 }

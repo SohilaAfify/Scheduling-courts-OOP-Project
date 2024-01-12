@@ -21,5 +21,31 @@ namespace OOP_Project
             IsReserved = isReserved;
             Times = times;
         }
+
+        public static void DisplayAvailableCourts(List<Court> courts)
+        {
+            HashSet<string> displayedCourts = new HashSet<string>();
+
+            Console.WriteLine("Available Courts:");
+
+            foreach (var court in courts)
+            {
+                string courtName = court.Name;
+
+                // Check if the court name has been displayed before
+                if (!displayedCourts.Contains(courtName))
+                {
+                    Console.WriteLine($"{courtName}");
+                    displayedCourts.Add(courtName);
+                }
+            }
+
+            // Display the court indices for selection
+            for (int i = 0; i < displayedCourts.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {displayedCourts.ElementAt(i)}");
+            }
+        }
+
     }
 }

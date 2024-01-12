@@ -9,158 +9,22 @@ namespace OOP_Project
 {
     internal class Program
     {
-        private const string DataFilePath = @"C:\json\Court.json";
-        private const string DataFilePath1 = @"C:\json\try.json";
-        private static Customer loggedInCustomer;
-        private static Sport selectedSport;
-        private static Court selectedCourt;
+        public const string DataFilePath = @"C:\json\Court.json";
+        public static Sport selectedSport;
+        public static Court selectedCourt;
 
-
-       
-        // Display available data
-        private static void DisplayAvailableCourts(List<Court> courts)
-        {
-            HashSet<string> displayedCourts = new HashSet<string>();
-
-            Console.WriteLine("Available Courts:");
-
-            foreach (var court in courts)
-            {
-                string courtName = court.Name;
-
-                // Check if the court name has been displayed before
-                if (!displayedCourts.Contains(courtName))
-                {
-                    Console.WriteLine($"{courtName}");
-                    displayedCourts.Add(courtName);
-                }
-            }
-
-            // Display the court indices for selection
-            for (int i = 0; i < displayedCourts.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {displayedCourts.ElementAt(i)}");
-            }
-        }
-        public static void GenerateMonthCalendar(int year, int month)
-        {
-            DateTime firstDayOfMonth = new DateTime(year, month, 1);
-            int daysInMonth = DateTime.DaysInMonth(year, month);
-
-            Console.WriteLine(firstDayOfMonth.ToString("MMMM yyyy"));
-            Console.WriteLine("Sun Mon Tue Wed Thu Fri Sat");
-
-            int startDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
-
-            for (int i = 0; i < startDayOfWeek; i++)
-            {
-                Console.Write("    ");
-            }
-
-            for (int day = 1; day <= daysInMonth; day++)
-            {
-                Console.Write($"{day,3}");
-
-                if ((startDayOfWeek + day) % 7 == 0)
-                {
-                    Console.WriteLine();
-                }
-            }
-        }
-        
-        private static SportsFacility LoadData()
-        {
-            try
-            {
-                if (File.Exists(DataFilePath))
-                {
-                    string jsonData = File.ReadAllText(DataFilePath);
-
-                    if (!string.IsNullOrWhiteSpace(jsonData))
-                    {
-                        return JsonSerializer.Deserialize<SportsFacility>(jsonData);
-                    }
-                    else
-                    {
-                        Console.WriteLine("JSON file is empty.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("JSON file does not exist.");
-                }
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"Error during deserialization: {ex.Message}");
-            }
-
-            // Handle the case when the file doesn't exist, is empty, or deserialization fails
-            Console.WriteLine("Creating a new instance of SportsFacility.");
-            return new SportsFacility();
-        }
-
-
-        private static void SaveData(SportsFacility sportsFacility)
-        {
-            string jsonData = JsonSerializer.Serialize(sportsFacility, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(DataFilePath, jsonData);
-            Console.WriteLine("Data saved successfully.");
-        }
-        static List<Customer> LoadCustomers()
-        {
-            List<Customer> customers;
-
-            try
-            {
-                if (File.Exists(@"C:\json\filename.json"))
-                {
-                    string json = File.ReadAllText(@"C:\json\filename.json");
-                    customers = JsonSerializer.Deserialize<List<Customer>>(json);
-
-                    if (customers == null)
-                        customers = new List<Customer>();
-                }
-                else
-                {
-                    customers = new List<Customer>();
-                }
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"Error loading JSON data: {ex.Message}");
-                customers = new List<Customer>();
-            }
-
-            return customers;
-        }
-
-        static void SaveCustomers(List<Customer> customers)
-        {
-            try
-            {
-                string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(@"C:\json\filename.json", json);
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"Error saving JSON data: {ex.Message}");
-            }
-        }
-      
         static void Main(string[] args)
         {
-
             List<Day> days = new List<Day>();
             // Load the data from the JSON file
             string json = File.ReadAllText(@"C:\json\try.json");
             days = JsonSerializer.Deserialize<List<Day>>(json);
-
-
-            SportsFacility sportsFacility = LoadData();
+            Customer customer1 = new Customer();
+             
+            SportsFacility sportsFacility = SportsFacility.LoadData();
 
             Admin admin = new Admin("Admin", "0123456", "Admin@gmail.com", "123", "Admin");
-            var cust = LoadCustomers();
+            var cust = Customer.LoadCustomers();
 
             bool isCustomer = false;
 
@@ -193,7 +57,7 @@ namespace OOP_Project
 
                     cust.Add(new Customer(userName, userPhoneNumber, userEmail, userPassword, userRole));
 
-                    SaveCustomers(cust);
+                    Customer.SaveCustomers(cust);
                 }
                 else if (option1 == "2") // Login
                 {
@@ -252,7 +116,7 @@ namespace OOP_Project
                                     Console.WriteLine($"You selected the sport: {selectedSport.Name}");
 
                                     // Display available courts for the selected sport
-                                    DisplayAvailableCourts(selectedSport.Courts);
+                                    Court.DisplayAvailableCourts(selectedSport.Courts);
 
                                     // Let the customer choose a court
                                     Console.Write("Enter the number of the court you want to choose: ");
@@ -274,7 +138,7 @@ namespace OOP_Project
                                             {
                                                 case "1": // Display Calendar
                                                           // Display the month calendar
-                                                    GenerateMonthCalendar(DateTime.Now.Year, DateTime.Now.Month);
+                                                    Day.GenerateMonthCalendar(DateTime.Now.Year, DateTime.Now.Month);
 
                                                     // Display available dates for the selected court
                                                     Console.WriteLine("Available Dates:");
@@ -356,7 +220,7 @@ namespace OOP_Project
                                                     break;
 
                                                 case "2": // Logout
-                                                    SaveData(sportsFacility); // Save changes before logout
+                                                    SportsFacility.SaveData(sportsFacility); // Save changes before logout
                                                     Console.WriteLine("Logout successful!");
                                                     return;
 
@@ -442,14 +306,13 @@ namespace OOP_Project
 
                                             Sport selectedSport = null;
                                             Court selectedCourt = null;
-
                                             if (sportIndex > 0 && sportIndex <= sportsFacility.Sports.Count)
                                             {
                                                 selectedSport = sportsFacility.Sports[sportIndex - 1];
                                                 Console.WriteLine($"You selected the sport: {selectedSport.Name}");
 
                                                 // Display available courts for the selected sport
-                                                DisplayAvailableCourts(selectedSport.Courts);
+                                                Court.DisplayAvailableCourts(selectedSport.Courts);
 
                                                 // Let the admin choose a court
                                                 Console.Write("Enter the number of the court you want to delete: ");
@@ -461,7 +324,7 @@ namespace OOP_Project
 
                                                     // Call the RemoveCourt method to delete all courts with the specified name
                                                     sportsFacility.RemoveCourt(sportIndex - 1, courtNameToDelete);
-                                                    SaveData(sportsFacility); // Save changes after deletion
+                                                    SportsFacility.SaveData(sportsFacility); // Save changes after deletion
                                                     Console.WriteLine($"All courts named '{courtNameToDelete}' removed successfully!");
                                                 }
                                                 else
@@ -477,7 +340,7 @@ namespace OOP_Project
                                             }
                                             break;
                                         case "3": // Logout
-                                            SaveData(sportsFacility); // Save changes before logout
+                                            SportsFacility.SaveData(sportsFacility); // Save changes before logout
                                             Console.WriteLine("Logout successful!");
                                             return;
 

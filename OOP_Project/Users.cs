@@ -14,7 +14,11 @@ namespace OOP_Project
         public string EmailAddress { get; set; }
         public String Password { get; set; }
         public String Role { get; set; }
-        
+
+        public Users()
+        {
+            
+        }
 
         public Users( string Name, string PhoneNumber, string EmailAddress, String Password, String Role)
         {
